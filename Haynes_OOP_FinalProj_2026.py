@@ -99,8 +99,10 @@ class Seq:
     def __str__(self):
         return self.sequence
 
+    # adds eq overload to compare two seq objects
     def __eq__(self,other):
         return self.sequence == other.sequence
+
     def print_record(self):
         print(self.species + " " + self.gene + ": " + self.sequence)
 
@@ -147,6 +149,17 @@ class DNA(Seq):
         rev = self.reverse_complement()
         return [self.sequence[0:], self.sequence[1:], self.sequence[2:],
                 rev[0:], rev[1:], rev[2:]]
+
+    # calculates gc content of sequence
+    # if percent True -> return percentage
+    # if percent False -> return proportion
+    def gc_content(self, percent=False):
+        gc = self.sequence.count('G') + self.sequence.count('C')
+
+        if percent == True:
+            return (gc / len(self.sequence)) * 100
+        else:
+            return gc / len(self.sequence)
 
 class RNA(DNA):
 
@@ -209,3 +222,7 @@ seq3 = Seq("TTTT", "test_gene3", "dog")
 print("seq1 == seq2:", seq1 == seq2)
 print("seq1 == seq3:", seq1 == seq3)
 
+# testing gc_content method
+seq = DNA("GGCCAAAA", "test_gene", "human", 8417)
+print(seq.gc_content()) # prints proportion
+print(seq.gc_content(True)) # prints percentage
