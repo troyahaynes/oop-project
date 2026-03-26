@@ -99,6 +99,8 @@ class Seq:
     def __str__(self):
         return self.sequence
 
+    def __eq__(self,other):
+        return self.sequence == other.sequence
     def print_record(self):
         print(self.species + " " + self.gene + ": " + self.sequence)
 
@@ -113,6 +115,7 @@ class Seq:
     def fasta(self):
         return ">" + self.species + " " + self.gene + "\n" + self.sequence
 
+    # counts the number of times a base is present in a sequence
     def count_base(self, base):
         return self.sequence.count(base)
 
@@ -192,10 +195,17 @@ class Protein(Seq):
 
 x=DNA("G","tmp","m",000)
 
-# testing count_base
+# testing count_base method
 s = Seq("AGAGAGATTC","test_gene", "human")
 print("Seq A count:", s.count_base('A'))
 print("Seq G count:", s.count_base('G'))
 print("Seq T count:", s.count_base('T'))
 print("Seq C count:", s.count_base('C'))
+
+# testing __eq__ method
+seq1 = Seq("AAAA", "test_gene1", "human")
+seq2 = Seq("AAAA", "test_gene2", "cat")
+seq3 = Seq("TTTT", "test_gene3", "dog")
+print("seq1 == seq2:", seq1 == seq2)
+print("seq1 == seq3:", seq1 == seq3)
 
