@@ -62,7 +62,6 @@
 #  (3) Add mol_weight, which returns the total molecular weight of the protein
 #      sequence assigned to the protein object. 
 
-
 import re
 
 standard_code = {
@@ -92,9 +91,10 @@ aa_mol_weights={'A':89.09,'C':121.15,'D':133.1,'E':147.13,'F':165.19,
 class Seq:
 
     def __init__(self,sequence,gene,species):
-        self.sequence=sequence
-        self.gene=gene
-        self.species=species
+        self.sequence = sequence.strip().upper() # clean up self.sequence
+        self.gene = gene
+        self.species = species
+        self.kmers = [] # added variable self.kners
 
     def __str__(self):
         return self.sequence
@@ -102,10 +102,17 @@ class Seq:
     def print_record(self):
         print(self.species + " " + self.gene + ": " + self.sequence)
 
-    #def make_kmers(self, k=3):
+    # makes overlapping kmers of a given length from self.sequence
+    def make_kmers(self, k=3):
+        self.kmers = []
+        for i in range(len(self.sequence) - k+1):
+            self.kmers.append(self.sequence[i:i+k])
+        return self.kmers
 
-    #def fasta(self):
-    
+    # creates a fasta formatted string
+    def fasta(self):
+        return ">" + self.species + " " + self.gene + "\n" + self.sequence
+
 class DNA(Seq):
 
     def __init__(self,sequence,gene,species,geneid,**kwargs):
