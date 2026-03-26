@@ -207,22 +207,3 @@ class Protein(Seq):
         return weight
 
 x=DNA("G","tmp","m",000)
-
-# testing count_base method
-s = Seq("AGAGAGATTC","test_gene", "human")
-print("Seq A count:", s.count_base('A'))
-print("Seq G count:", s.count_base('G'))
-print("Seq T count:", s.count_base('T'))
-print("Seq C count:", s.count_base('C'))
-
-# testing __eq__ method
-seq1 = Seq("AAAA", "test_gene1", "human")
-seq2 = Seq("AAAA", "test_gene2", "cat")
-seq3 = Seq("TTTT", "test_gene3", "dog")
-print("seq1 == seq2:", seq1 == seq2)
-print("seq1 == seq3:", seq1 == seq3)
-
-# testing gc_content method
-seq = DNA("GGCCAAAA", "test_gene", "human", 8417)
-print(seq.gc_content()) # prints proportion
-print(seq.gc_content(True)) # prints percentage
