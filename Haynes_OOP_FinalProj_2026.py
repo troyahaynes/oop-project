@@ -167,15 +167,25 @@ class RNA(DNA):
             protein += standard_code.get(codon, 'X')
         return protein
 
-#class Protein(Seq):
+class Protein(Seq):
 
-    #def __init__:
+    def __init__(self,sequence,gene,species,geneid=None,**kwargs):
+        super().__init__(sequence,gene,species)
+        self.sequence = re.sub('[^A-Z]', 'X', self.sequence) # changes non-letter characters into 'X'
 
-    #def total_hydro(self):
+    # returns sum of total hydrophobicity of sequence
+    def total_hydro(self):
+        total = 0
+        for aa in self.sequence:
+            total += kyte_doolittle[aa]
+        return total
 
-    #def mol_weight(self):
-
-    
+    # returns total molecular weight of sequence
+    def mol_weight(self):
+        weight = 0
+        for aa in self.sequence:
+            weight += aa_mol_weights[aa]
+        return weight
 
 x=DNA("G","tmp","m",000)
 
