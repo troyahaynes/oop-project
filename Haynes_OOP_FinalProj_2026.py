@@ -124,9 +124,11 @@ class DNA(Seq):
         gc=len(re.findall('G',self.sequence) + re.findall('C',self.sequence))
         return gc
 
+    # same as print_record but adds geneid at the start
     def print_info(self):
         print(str(self.geneid) + " " + self.species + " " + self.gene + ": " + self.sequence)
 
+    # returns reverse complement sequence
     def reverse_complement(self):
         comp = {'A':'T', 'T':'A', 'G':'C', 'C':'G', 'U':'A', 'N':'N'}
         rev = ""
@@ -134,21 +136,38 @@ class DNA(Seq):
             rev += comp[base]
         return rev
 
+    # returns three forward and three reverse frames
     def six_frames(self):
         rev = self.reverse_complement()
         return [self.sequence[0:], self.sequence[1:], self.sequence[2:],
                 rev[0:], rev[1:], rev[2:]]
 
-"""
 class RNA(DNA):
 
-    #def __init__(self):
-        
-    #def make_codons(self):
- 
-    #def translate(self):
+    def __init__(self,sequence,gene,species,geneid,**kwargs):
+        super().__init__(sequence,gene,species,geneid,**kwargs)
+        self.sequence = self.sequence.replace('T', 'U') # changes Ts to Us
+        self.codons = []
 
-class Protein(Seq):
+    # breaks sequence into 3 letter codons
+    # appends only 3 letter lengths to self.codons
+    def make_codons(self):
+        self.codons = []
+        for i in range(0, len(self.sequence), 3):
+            codon = self.sequence[i:i+3]
+            if len(codon) == 3:
+                self.codons.append(codon)
+        return self.codons
+
+    # uses Global Variable standard_code to translate codons in self.codons
+    # returns protein sequence
+    def translate(self):
+        protein = ""
+        for codon in self.codons:
+            protein += standard_code.get(codon, 'X')
+        return protein
+
+#class Protein(Seq):
 
     #def __init__:
 
@@ -156,7 +175,6 @@ class Protein(Seq):
 
     #def mol_weight(self):
 
-"""
     
 
 x=DNA("G","tmp","m",000)
