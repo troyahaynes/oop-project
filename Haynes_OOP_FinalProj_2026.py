@@ -113,6 +113,9 @@ class Seq:
     def fasta(self):
         return ">" + self.species + " " + self.gene + "\n" + self.sequence
 
+    def count_base(self, base):
+        return self.sequence.count(base)
+
 class DNA(Seq):
 
     def __init__(self,sequence,gene,species,geneid,**kwargs):
@@ -189,7 +192,10 @@ class Protein(Seq):
 
 x=DNA("G","tmp","m",000)
 
-
-
-
+# testing count_base
+s = Seq("AGAGAGATTC","test_gene", "human")
+print("Seq A count:", s.count_base('A'))
+print("Seq G count:", s.count_base('G'))
+print("Seq T count:", s.count_base('T'))
+print("Seq C count:", s.count_base('C'))
 
