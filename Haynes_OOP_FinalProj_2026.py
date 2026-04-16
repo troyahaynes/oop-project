@@ -99,6 +99,16 @@ class Seq:
     def __str__(self):
         return self.sequence
 
+    def __len__(self): #Adds len overload so we can access the seq length of the object - Brandon Wong
+        """Len overload to return the length of the sequence from the Seq class.
+
+        >>> s=Seq("AGTAGC","tmp","m")
+        >>> len(s)
+        6
+        """
+
+        return len(self.sequence)
+
     # adds eq overload to compare two seq objects
     def __eq__(self,other):
         """
@@ -231,6 +241,20 @@ class Protein(Seq):
     def __init__(self,sequence,gene,species,geneid=None,**kwargs):
         super().__init__(sequence,gene,species)
         self.sequence = re.sub('[^A-Z]', 'X', self.sequence) # changes non-letter characters into 'X'
+
+    def amino_acid_composition(self): #Added aa comp dictionary - Brandon Wong
+        """Creates a dictionary of the amino acids and their count in the sequence.
+        >>> r=Protein("AGTXAGC","tmp","m","geneid_test")
+        >>> r.amino_acid_composition()
+        {'A': 2, 'G': 2, 'T': 1, 'X': 1, 'C': 1}
+        """
+        aa_composition={}
+        for aa in self.sequence:
+            if aa in aa_composition:
+                aa_composition[aa] += 1
+            else:
+                aa_composition[aa] = 1
+        return aa_composition
 
     # returns sum of total hydrophobicity of sequence
     def total_hydro(self):
