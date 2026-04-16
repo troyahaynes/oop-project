@@ -94,13 +94,21 @@ class Seq:
         self.sequence = sequence.strip().upper() # clean up self.sequence
         self.gene = gene
         self.species = species
-        self.kmers = [] # added variable self.kners
+        self.kmers = [] # added variable self.kmers
 
     def __str__(self):
         return self.sequence
 
     # adds eq overload to compare two seq objects
     def __eq__(self,other):
+        """
+        Comparing two seq objects by sequence.
+
+        >>> Seq("ATGC", "gene1", "human") == Seq("ATGC", "gene2", "dog")
+        True
+        >>> Seq("ATGC", "gene1", "human") == Seq("AAAA", "gene2", "dog")
+        False
+        """
         return self.sequence == other.sequence
 
     def print_record(self):
@@ -119,6 +127,15 @@ class Seq:
 
     # counts the number of times a base is present in a sequence
     def count_base(self, base):
+        """
+        Counts the occurrence of a specific base in sequence.
+
+        >>> seq = Seq("AGAGTTT", "gene1", "human")
+        >>> seq.count_base("T")
+        3
+        >>> seq.count_base("A")
+        2
+        """
         return self.sequence.count(base)
 
 class DNA(Seq):
@@ -138,6 +155,13 @@ class DNA(Seq):
 
     # returns reverse complement sequence
     def reverse_complement(self):
+        """
+        Returns reverse complement of sequence.
+
+        >>> seq = DNA("ATGC","gene1","human",1)
+        >>> seq.reverse_complement()
+        'GCAT'
+        """
         comp = {'A':'T', 'T':'A', 'G':'C', 'C':'G', 'U':'A', 'N':'N'}
         rev = ""
         for base in self.sequence[::-1]:
@@ -146,6 +170,13 @@ class DNA(Seq):
 
     # returns three forward and three reverse frames
     def six_frames(self):
+        """
+        Returns the six reading frames of the sequence.
+
+        >>> seq = DNA("ATGCCG","gene1","human",1)
+        >>> seq.six_frames()
+        ['ATGCCG', 'TGCCG', 'GCCG', 'CGGCAT', 'GGCAT', 'GCAT']
+        """
         rev = self.reverse_complement()
         return [self.sequence[0:], self.sequence[1:], self.sequence[2:],
                 rev[0:], rev[1:], rev[2:]]
@@ -154,6 +185,15 @@ class DNA(Seq):
     # if percent True -> return percentage
     # if percent False -> return proportion
     def gc_content(self, percent=False):
+        """
+        Calculates GC content.
+
+        >>> seq = DNA("ATGC","gene1","human",8417)
+        >>> seq.gc_content()
+        0.5
+        >>> seq.gc_content(True)
+        50.0
+        """
         gc = self.sequence.count('G') + self.sequence.count('C')
 
         if percent == True:
@@ -206,4 +246,6 @@ class Protein(Seq):
             weight += aa_mol_weights[aa]
         return weight
 
-x=DNA("G","tmp","m",000)
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod(verbose=True)
