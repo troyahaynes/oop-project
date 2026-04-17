@@ -98,6 +98,9 @@ class Seq:
 
     def __str__(self):
         return self.sequence
+    
+    def __len__(self): #Adds len overload so we can access the seq length of the object
+        return len(self.sequence)
 
     def __len__(self): #Adds len overload so we can access the seq length of the object - Brandon Wong
         """Len overload to return the length of the sequence from the Seq class.
@@ -269,6 +272,15 @@ class Protein(Seq):
         for aa in self.sequence:
             weight += aa_mol_weights[aa]
         return weight
+    
+    def amino_acid_composition(self): #Added aa comp dictionary
+        aa_composition={}
+        for aa in self.sequence:
+            if aa in aa_composition:
+                aa_composition[aa] += 1
+            else:
+                aa_composition[aa] = 1
+        return aa_composition
 
 if __name__ == "__main__":
     import doctest
